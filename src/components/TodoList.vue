@@ -45,44 +45,33 @@ export default {
       todos: []
     }
   },
-  created () {
+  async mounted () {
 
-    this.init();  
+    let response = await fetch("http://localhost:3000/api/users/spooky/tasks");
+    let result = await response.json();
+    
+    result.tasks.forEach((task) => {
+      this.todos.push(task);
+    });
+
   },
   methods: {
-    addTodo (todo) {
+    async addTodo (title) {
       let data = {
-        title: todo,
+        title,
         completed: false
       }
-      let todos = this.todos;
-      fetch('http://localhost:3000/api/users/spooky/tasks/create', {
+
+      let response = await fetch('http://localhost:3000/api/users/spooky/tasks/create', {
         method: 'post',
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data)
-      }).then(function(response) {
-        return response.json();
-      }).then(function(data) {
-        todos.push({
-          title: todo,
-          completed: false
-        })
+      });
+
+      let result = await response.json();
+
+      this.todos.push(result.task)
         
-      });      
-    },
-    init () {
-      let todos = this.todos;
-      fetch("http://localhost:3000/api/users/spooky/tasks").then(function (response) {
-            return response.json();
-      }).then(function (result) {
-          
-          result.tasks.forEach((task) => {
-            todos.push(task);
-          });
-      }); 
-      
     }
   },
   computed: {
