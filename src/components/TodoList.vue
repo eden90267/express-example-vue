@@ -47,7 +47,7 @@ export default {
   },
   async mounted () {
 
-    let response = await fetch("http://localhost:3000/api/users/hellojs/tasks");
+    let response = await fetch("http://localhost:3000/api/users/hellojs/tasks");
     let result = await response.json();
     
     result.tasks.forEach((task) => {
@@ -62,7 +62,7 @@ export default {
         completed: false
       }
 
-      let response = await fetch('http://localhost:3000/api/users/hellojs/tasks/create', {
+      let response = await fetch('http://localhost:3000/api/users/hellojs/tasks/create', {
         method: 'post',
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(data)
